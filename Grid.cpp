@@ -109,4 +109,16 @@ void Grid::to_console(char ch) const {
     std::cout << std::flush;
     // ofs.close();
 }
+
+std::vector<Grid::CoorType> Grid::get_live_cells() const {
+    std::vector<CoorType> ret;
+    for (int i = 0; i < width_; i++) {
+        for (int j = 0; j < height_; j++) {
+            if (data_[i][j] == Live) {
+                ret.push_back({i, j});
+            }
+        }
+    }
+    return ret;
+}
 }

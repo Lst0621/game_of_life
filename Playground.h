@@ -1,19 +1,19 @@
 #pragma once
+#include <functional>
 #include <string>
 
 #include "Grid.h"
 namespace lst {
 namespace gol {
-class PlayGroud {
+class PlayGround {
    public:
-    PlayGroud(int width, int height);
-    void run();
+    PlayGround(int width, int height);
+    void run(std::function<void(const Grid &)> func = [](const Grid &grid) {});
     void set_up();
 
    private:
     int width_;
     int height_;
-    bool visual_;
 
    public:
     void setVisual();
@@ -24,11 +24,14 @@ class PlayGroud {
 
    private:
     int max_run_;
-    int epoch_;
     Grid grid_;
 
+    int same_count = 0;
+    int ep_ = 0;
+    std::unordered_map<int, int> digest_history;
+
    public:
-    void setOutFn(const std::string &outFn);
+    const Grid &getGrid() const;
 };
 }
 }

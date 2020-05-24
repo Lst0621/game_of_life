@@ -1,20 +1,16 @@
 #include <iostream>
-#include "Grid.h"
+#include "Playground.h"
 
 using namespace lst::gol;
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    Grid g(100, 100);
-    g.set_cell(40, 40, Live);
-    g.set_cell(41, 40, Live);
-    g.set_cell(40, 41, Live);
-
-    for (int i = 0; i < 40; i++) {
-        std::cout << i << " " << g.sum() << std::endl;
-        if (g.empty()) {
-            break;
-        }
-        g = g.evolve();
+    std::cout << "Game of Life" << std::endl;
+    int h = 70;
+    int w = 50;
+    PlayGroud pg = PlayGroud(w, h);
+    pg.setVisual();
+    while (true) {
+        pg.set_up();
+        pg.run();
     }
 
     return 0;

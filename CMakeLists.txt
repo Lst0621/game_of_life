@@ -9,6 +9,8 @@ SET(CMAKE_CXX_STANDARD 17)
 SET(src_files
         main.cpp
         Grid.h Grid.cpp
+        Playground.h Playground.cpp
         )
 
-add_executable(game_of_life  ${src_files})
+add_executable(game_of_life  ${src_files} )
+target_link_libraries(game_of_life glog)

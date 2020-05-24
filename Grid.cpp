@@ -1,5 +1,6 @@
 #include "Grid.h"
-#include "algorithm"
+#include <algorithm>
+#include "iostream"
 
 namespace lst::gol {
 
@@ -10,7 +11,7 @@ Grid::Grid(int width, int height)
 }
 
 int Grid::get_digest() {
-    return get_disget_v1();
+    return get_digest_v1();
 }
 
 bool Grid::empty() {
@@ -43,20 +44,21 @@ Grid Grid::evolve() {
     return ret;
 }
 
-int Grid::get_disget_v1() {
+int Grid::get_digest_v1() {
     constexpr int weight = 3;
     constexpr int RES = 10000007;
     int sum = 0;
     for (const auto &line : data_) {
         for (const auto &num : line) {
+            sum = sum * 3 + num;
+            sum = sum % RES;
         }
     }
-
     return sum;
 }
 
 bool Grid::is_valid_xy(int x, int y) const {
-    return x >= 0 && x < width_ && y >= 0 && y < width_;
+    return x >= 0 && x < width_ && y >= 0 && y < height_;
 }
 
 int Grid::get_neighbour_sum(int x, int y) const {
@@ -94,5 +96,17 @@ int Grid::sum() const {
         }
     }
     return sum;
+}
+
+void Grid::to_console(char ch) const {
+    constexpr char Space = ' ';
+    for (const auto &line : data_) {
+        for (const auto &num : line) {
+            std::cout << (num == Live ? ch : Space);
+        }
+        std::cout << '\n';
+    }
+    std::cout << std::flush;
+    // ofs.close();
 }
 }

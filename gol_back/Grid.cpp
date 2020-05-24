@@ -50,7 +50,7 @@ int Grid::get_digest_v1() {
     int sum = 0;
     for (const auto &line : data_) {
         for (const auto &num : line) {
-            sum = sum * 3 + num;
+            sum = sum * weight + num;
             sum = sum % RES;
         }
     }

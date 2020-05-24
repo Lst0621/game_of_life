@@ -6,15 +6,8 @@ SET (CMAKE_CXX_COMPILER /usr/bin/clang++)
 project(game_of_life)
 
 SET(CMAKE_CXX_STANDARD 17)
+include_directories(gol_back)
 
-find_package(Qt5Widgets)
+add_subdirectory(gol_back)
+add_subdirectory(gol_qt)
 
-SET(src_files
-        main.cpp
-        Grid.h Grid.cpp
-        Playground.h Playground.cpp
-        GolWidget.h GolWidget.cpp
-        )
-
-add_executable(game_of_life  ${src_files} )
-target_link_libraries(game_of_life glog Qt5::Widgets)

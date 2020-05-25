@@ -9,7 +9,10 @@ This is a c++ implementation.
 * Any dead cell with three live neighbours becomes a live cell.
 * All other live cells die in the next generation. Similarly, all other dead cells stay dead.
 ## Dependencies
+### Better to have
+* glog: or change to cout
+### For specific build
 * qt5-default
-* glog
+* libboost-python-dev
 ## Ref
 https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life

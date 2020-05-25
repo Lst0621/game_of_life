@@ -6,8 +6,9 @@ SET (CMAKE_CXX_COMPILER /usr/bin/clang++)
 project(game_of_life)
 
 SET(CMAKE_CXX_STANDARD 17)
-include_directories(gol_back)
+include_directories(gol_back_inc)
 
 add_subdirectory(gol_back)
 add_subdirectory(gol_qt)
+add_subdirectory(gol_py)
 

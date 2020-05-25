@@ -49,6 +49,7 @@ void PlayGround::run(std::function<void(const Grid &)> func) {
 }
 
 void PlayGround::set_up() {
+    LOG(INFO) << "Playground set up";
     ep_ = 0;
     same_count = 0;
     digest_history.clear();

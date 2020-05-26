@@ -16,7 +16,7 @@ class Grid {
     bool set_cell(int x, int y, int value);
     void to_console(char ch = '#') const;
     using CoorType = std::array<int, 2>;
-    std::vector<CoorType> get_live_cells() const;
+    [[nodiscard]] std::vector<CoorType> get_live_cells() const;
 
    private:
     int width_;

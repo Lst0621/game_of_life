@@ -1,0 +1,1 @@
+/usr/bin/clang++ -fPIC   -shared -Wl,-soname,gol_py.so -o gol_py.so CMakeFiles/gol_py.dir/gol_py.cpp.o -Wl,-rpath,/home/jbrennan094/workspace/game_of_life/build/gol_back ../gol_back/libgol_back.so -lglog /usr/lib/x86_64-linux-gnu/libboost_python.so /usr/lib/x86_64-linux-gnu/libpython2.7.so 

@@ -2,8 +2,7 @@
 # cwd is set to ${CMAKE_CURRENT_BINARY_DIR
 import os
 import sys
-sys.path.append(os.getcwd())
-print(os.getcwd())
+sys.path.append('/home/jbrennan094/workspace/game_of_life/build/gol_py')
 import gol_py
 
 

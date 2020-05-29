@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../gol_back_inc/Grid.h
+array
+-
+vector
+-
+
+../gol_back_inc/Playground.h
+functional
+-
+string
+-
+Grid.h
+../gol_back_inc/Grid.h
+
+/home/jbrennan094/workspace/game_of_life/gol_py/gol_py.cpp
+boost/python.hpp
+-
+boost/python/overloads.hpp
+-
+boost/python/suite/indexing/indexing_suite.hpp
+-
+boost/python/suite/indexing/vector_indexing_suite.hpp
+-
+Playground.h
+/home/jbrennan094/workspace/game_of_life/gol_py/Playground.h
+

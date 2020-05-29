@@ -1,0 +1,1 @@
+/usr/bin/clang++ -fPIC   -shared -Wl,-soname,libgol_back.so -o libgol_back.so CMakeFiles/gol_back.dir/Grid.cpp.o CMakeFiles/gol_back.dir/Playground.cpp.o 

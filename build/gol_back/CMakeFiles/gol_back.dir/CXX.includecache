@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../gol_back_inc/Grid.h
+array
+-
+vector
+-
+
+../gol_back_inc/Playground.h
+functional
+-
+string
+-
+Grid.h
+../gol_back_inc/Grid.h
+
+/home/jbrennan094/workspace/game_of_life/gol_back/Grid.cpp
+Grid.h
+/home/jbrennan094/workspace/game_of_life/gol_back/Grid.h
+algorithm
+-
+iostream
+/home/jbrennan094/workspace/game_of_life/gol_back/iostream
+
+/home/jbrennan094/workspace/game_of_life/gol_back/Playground.cpp
+Playground.h
+/home/jbrennan094/workspace/game_of_life/gol_back/Playground.h
+glog/logging.h
+-
+unistd.h
+-
+iostream
+-
+unordered_map
+-
+

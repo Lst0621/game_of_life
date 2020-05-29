@@ -4,7 +4,7 @@ include_directories(${PYTHON_INCLUDE_DIRS})
 
 # get boost
 find_package(Boost COMPONENTS
-        python3
+        python
         REQUIRED)
 message("boost: ${Boost_LIBRARIES}")
 
@@ -20,5 +20,5 @@ set_target_properties(gol_py PROPERTIES PREFIX "")
 
 add_custom_target (gol_py_script
         DEPENDS gol_py
-        COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/check_all_func.py
+        COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/check_all_func.py
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/)

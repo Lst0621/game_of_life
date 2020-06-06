@@ -1,5 +1,7 @@
-find_package(PythonInterp REQUIRED)
-find_package(PythonLibs REQUIRED)
+find_package(PythonInterp 3 REQUIRED)
+message("python inc: ${PYTHON_INCLUDE_DIRS}")
+find_package(PythonLibs 3 REQUIRED)
+message("python inc: ${PYTHON_INCLUDE_DIRS}")
 include_directories(${PYTHON_INCLUDE_DIRS})
 
 # get boost

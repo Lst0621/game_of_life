@@ -8,7 +8,9 @@
 #include <QtGui>
 #include <memory>
 
+#include "Grid.h"
 #include "Playground.h"
+#include "VectorGrid.h"
 
 namespace lst {
 namespace gol {
@@ -21,13 +23,14 @@ class MyWidget : public QWidget {
     void paintEvent(QPaintEvent *event);
 
    private:
-    std::unique_ptr<PlayGround> pg;
+    using PlayGroundT = PlayGround<2>;
+    std::unique_ptr<PlayGroundT> pg;
 
-    void draw_gol_grid(const Grid &grid);
+    void draw_gol_grid(Grid<2>::SharedGridPtr grid);
 
-    int h = 90;
-    int w = 90;
-    int scale = 10;
+    int h = 200;
+    int w = 200;
+    int scale = 4;
     int epoch = 100;
     QTimer timer = QTimer(this);
 };

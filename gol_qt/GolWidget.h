@@ -23,15 +23,15 @@ class MyWidget : public QWidget {
     void paintEvent(QPaintEvent *event);
 
    private:
-    using PlayGroundT = PlayGround<2>;
+    using PlayGroundT = PlayGround<3>;
     std::unique_ptr<PlayGroundT> pg;
 
-    void draw_gol_grid(Grid<2>::SharedGridPtr grid);
+    void draw_gol_grid(Grid<3>::SharedGridPtr grid);
 
-    int h = 200;
-    int w = 200;
-    int scale = 4;
-    int epoch = 100;
+    int h = 15;
+    int w = 15;
+    int scale = 40;
+    int epoch = 50;
     QTimer timer = QTimer(this);
 };
 }

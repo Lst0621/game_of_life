@@ -4,6 +4,16 @@
 namespace lst {
 namespace gol {
 
+template <int N>
+int coor_get(typename Grid<N>::CoorType& coor, size_t pos) {
+    return coor[pos];
+}
+
+template <int N>
+void coor_set(typename Grid<N>::CoorType& coor, size_t pos, int value) {
+    coor[pos] = value;
+}
+
 template <class GridImpl>
 class GridImplPt {
    public:
@@ -22,7 +32,7 @@ class GridImplPt {
         return pt->evolve();
     }
 
-    static bool set_cell(PtType pt, const typename GridImpl::CoorType &coor,
+    static bool set_cell(PtType pt, const typename GridImpl::CoorType& coor,
                          int value) {
         return pt->set_cell(coor, value);
     }
@@ -31,5 +41,5 @@ class GridImplPt {
         return pt->get_live_cells();
     }
 };
-}
-}
+}  // namespace gol
+}  // namespace lst

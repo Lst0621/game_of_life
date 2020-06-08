@@ -5,13 +5,25 @@ import sys
 
 sys.path.append(os.getcwd())
 print(os.getcwd())
-import gol_py
+
+from gol_py.dim3 import CoorType, CordList,  GridVectorPtr, PlayGround
 
 
-def gen_coor(x, y):
-    sz = gol_py.CoorType()
-    sz.set(0, x)
-    sz.set(1, y)
+
+def gen_coor(inputs):
+    sz = CoorType()
+    dim = len(sz)
+    for i, num in  enumerate(inputs):
+        if i==dim:
+            break
+        sz.set(i , num)
+    return sz
+
+
+def gen_coor_all(x):
+    sz = CoorType()
+    for i in range(len(sz)):
+        sz.set(i,x)
     return sz
 
 
@@ -31,40 +43,47 @@ def extra_print(func):
 @extra_print
 def t_playground():
     print("test playground...")
-    pl = gol_py.PlayGround(gen_coor(8, 8))
+    init_size = 30
+    num_iter = 10
+    pl = PlayGround(gen_coor_all(init_size))
     print(type(pl))
-    num_iter = 5
     for i in range(num_iter):
         pl.run()
         grid = pl.getGrid()
-        print(type(grid))
-        print(grid.sum(), grid.get_digest())
+        if i==0:
+            print(type(grid))
         coords = grid.get_live_cells()
-        print(len(coords), type(coords))
+        print( "iter {}: live cells {} , digest: {}".format(i, grid.sum(), grid.get_digest()))
 
 
 @extra_print
 def t_grid():
     print("test grid...")
 
-    # grid = gol_py.Grid2DVec(gen_coor(4,4))
-    grid = gol_py.Grid2DVectorPtr(gen_coor(4, 4))
-    print(grid.sum(), grid.get_digest())
-    grid.set_cell(gen_coor(0, 0), 1)
-    print(grid.sum(), grid.get_digest())
+    #grid = gol_py.Grid2DVec(gen_coor_all(4))
+    grid = GridVectorPtr(gen_coor_all(4))
+    print("grid sum and digest: {} {}".format(grid.sum(), grid.get_digest()))
+    grid.set_cell(gen_coor_all(0), 1)
+    print("grid sum and digest: {} {}".format(grid.sum(), grid.get_digest()))
     coords = grid.get_live_cells()
-    print(len(coords), type(coords))
+    print("coord list len: {}  ,type: {}".format(len(coords), type(coords)))
+    grid.set_cell(gen_coor_all(1), 1)
+    print("grid sum and digest: {} {}".format(grid.sum(), grid.get_digest()))
+    coords = grid.get_live_cells()
+    print("coord list len: {}  ,type: {}".format(len(coords), type(coords)))
 
 
 @extra_print
 def t_coord():
     print("test coord...")
-    co = gol_py.CoorType()
+    co = CoorType()
+    dim = len(co)
     print("Coord dim: {} {}".format(len(co), co.size()))
-    print("Value at start: {} {}".format(co.get(0), co.get(1)))
-    co.set(0, 1)
-    co.set(1, 1)
-    print("Value should be changed: {} {}".format(co.get(0), co.get(1)))
+    print("Value start: {}".format(",".join([str(co.get(i)) for i in range(dim)])))
+    for i in range(dim):
+        co.set(i,1)
+    print("Value changed: {}".format(",".join([str(co.get(i)) for i in range(dim)])))
+
 
 
 def main():

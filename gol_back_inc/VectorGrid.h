@@ -31,7 +31,7 @@ class VectorGrid : public Grid<N> {
         int sum = 0;
         for (const auto &coords : cells_) {
             for (const int &coord : coords) {
-                sum = sum * weight + coord;
+                sum = sum * weight + coord + 1;
                 sum = sum % RES;
             }
         }
@@ -48,6 +48,7 @@ class VectorGrid : public Grid<N> {
     }
 
     void evolve() override {
+        LOG(INFO) << __PRETTY_FUNCTION__;
         constexpr int LiveLiveLower = 2;
         constexpr int LiveLiveHigher = 3;
         constexpr int DeadLiveLower = 3;
@@ -106,6 +107,10 @@ class VectorGrid : public Grid<N> {
     std::vector<typename Grid<N>::CoorType> get_live_cells() const override {
         return {cells_.begin(), cells_.end()};
     }
+
+    void clear() override {
+        cells_.clear();
+    }
 };
-}
-}
+}  // namespace gol
+}  // namespace lst

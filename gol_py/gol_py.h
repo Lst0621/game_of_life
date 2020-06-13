@@ -14,11 +14,12 @@ void coor_set(typename Grid<N>::CoorType& coor, size_t pos, int value) {
     coor[pos] = value;
 }
 
-template <class GridImpl>
+template <template <int M> class GridImpl, int N>
 class GridImplPt {
    public:
-    static_assert(std::is_base_of<Grid<GridImpl::DIM>, GridImpl>::value);
-    using PtType = std::shared_ptr<GridImpl>;
+    static_assert(std::is_base_of<Grid<N>, GridImpl<N>>::value);
+    using PtType = std::shared_ptr<GridImpl<N>>;
+    using CoorType = typename Grid<N>::CoorType;
 
     static int sum(PtType pt) {
         return pt->sum();
@@ -32,12 +33,11 @@ class GridImplPt {
         return pt->evolve();
     }
 
-    static bool set_cell(PtType pt, const typename GridImpl::CoorType& coor,
-                         int value) {
+    static bool set_cell(PtType pt, const CoorType& coor, int value) {
         return pt->set_cell(coor, value);
     }
 
-    static std::vector<typename GridImpl::CoorType> get_live_cells(PtType pt) {
+    static std::vector<CoorType> get_live_cells(PtType pt) {
         return pt->get_live_cells();
     }
 };

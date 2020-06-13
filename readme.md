@@ -18,6 +18,12 @@ With c++ template, user defined dimension number is supported.
 * glog: or change to cout
 ### For specific build
 * qt5-default: for visualization
+* qt3d5-dev
+* qt3d-assimpsceneimport-plugin
+* qt3d-defaultgeometryloader-plugin 
+* qt3d-gltfsceneio-plugin
+* qt3d-scene2d-plugin
+
 * libboost-python-dev: for py wrapper
 
 ## Build

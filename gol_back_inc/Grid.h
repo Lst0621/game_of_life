@@ -1,6 +1,6 @@
 #pragma once
+#include <bits/allocator.h>
 #include <array>
-#include <boost/static_assert.hpp>
 #include <memory>
 #include <vector>
 #include "glog/logging.h"
@@ -15,7 +15,7 @@ class Grid {
    public:
     static constexpr int DIM = N;
     using BaseGridT = Grid<DIM>;
-    using CoorType = std::array<int, N>;
+    using CoorType = std::array<int, DIM>;
     Grid(const CoorType &size) {
         size_ = size;
         LOG(INFO) << "Hello from Grid";
@@ -29,10 +29,12 @@ class Grid {
     virtual void evolve() = 0;
     virtual bool set_cell(const CoorType &coor, int value) = 0;
 
-    template <class Container>
-    bool set_cell_from_container(const Container &container, int value) {
+    // template <class Container>
+    template <template <class T, class Alloc = std::allocator<T>>
+              class Container>
+    bool set_cell_from_container(const Container<CoorType> &container,
+                                 const int value) {
         LOG(INFO) << "Setting a list of " << container.size() << " Points";
-        static_assert(std::is_same<typename Container::value_type, CoorType>());
 
         for (const CoorType &coor : container) {
             if (!set_cell(coor, value)) {
@@ -43,7 +45,7 @@ class Grid {
     }
 
     virtual void to_console(char ch = '#') const = 0;
-    virtual std::vector<CoorType> get_live_cells() const = 0;
+    [[nodiscard]] virtual std::vector<CoorType> get_live_cells() const = 0;
     virtual ~Grid() {
         LOG(INFO) << "Bye from Grid";
     }
@@ -63,8 +65,12 @@ class Grid {
     CoorType size_;
 
    public:
-    [[nodiscard]] const CoorType &getSize() const {
-        return size_;
+    [[nodiscard]] const CoorType &getSize() const { return size_; }
+
+    template <template <int M> class GridImpl>
+    static SharedGridPtr get_shared_pt(const CoorType &size) {
+        static_assert(std::is_base_of<Grid, GridImpl<DIM>>::value);
+        return std::make_shared<GridImpl<DIM>>(size);
     }
 };
 
@@ -75,10 +81,10 @@ std::vector<typename Grid<N>::CoorType> Grid<N>::get_neighbours(int dist) {
         return {};
     }
     auto lower_dim = Grid<N - 1>::get_neighbours(dist);
-    std::vector<typename Grid<N>::CoorType> ret;
+    std::vector<CoorType> ret;
     for (const auto &lower_dim_result : lower_dim) {
         for (int i = -dist; i <= dist; i++) {
-            typename Grid<N>::CoorType coor;
+            CoorType coor;
             for (int dim = 0; dim < N - 1; dim++) {
                 coor[dim] = lower_dim_result[dim];
             }
@@ -95,19 +101,14 @@ inline std::vector<typename Grid<1>::CoorType> Grid<1>::get_neighbours(
     if (dist < 0) {
         return {};
     }
-    std::vector<typename Grid<1>::CoorType> ret;
+    std::vector<CoorType> ret;
     for (int i = -dist; i <= dist; i++) {
-        typename Grid<1>::CoorType coor;
+        CoorType coor;
         coor[0] = i;
         ret.push_back(coor);
     }
     return ret;
 }
-template <class GridImpl>
-typename Grid<GridImpl::DIM>::SharedGridPtr get_shared_pt(
-    const typename GridImpl::CoorType &size) {
-    static_assert(std::is_base_of<Grid<GridImpl::DIM>, GridImpl>::value);
-    return std::make_shared<GridImpl>(size);
-}
+
 };  // namespace gol
 };  // namespace lst

@@ -9,18 +9,22 @@ namespace gol {
 template <int N>
 class PlayGround {
    public:
-    PlayGround(const typename Grid<N>::CoorType &size,
-               std::function<typename Grid<N>::SharedGridPtr(
-                   const typename Grid<N>::CoorType &size)>
-                   factory = get_shared_pt<VectorGrid<N>>) {
+    static constexpr int DIM = N;
+    using GridT = Grid<DIM>;
+    using CoorType = typename GridT::CoorType;
+    PlayGround(
+        const CoorType &size,
+        std::function<typename GridT::SharedGridPtr(const CoorType &size)>
+             //factory = GridT::template get_shared_pt<VectorGrid>)
+            factory = [](auto s){return std::make_shared<VectorGrid<N>>(s);}) {
         size_ = size;
         grid_ = factory(size);
         max_run_ = -1;
         same_limit_ = 100;
         set_up();
     };
-    virtual void run(std::function<void(typename Grid<N>::SharedGridPtr)> func =
-                         [](typename Grid<N>::SharedGridPtr grid) {}) {
+    virtual void run(std::function<void(typename GridT::SharedGridPtr)> func =
+                         [](typename GridT::SharedGridPtr grid) {}) {
         int digest = grid_->get_digest();
         int s = grid_->sum();
         int &last_seen = digest_history[digest];
@@ -64,37 +68,35 @@ class PlayGround {
 
     // Just to test template, current dim as a function para also works
     template <int CurrentDim>
-    void get_starting_live_cells_helper(
-        std::vector<typename Grid<N>::CoorType> &vec,
-        typename Grid<N>::CoorType &pt) {
+    void get_starting_live_cells_helper(std::vector<CoorType> &vec,
+                                        CoorType &pt) {
         for (int i = 0; i < size_[CurrentDim]; i++) {
             pt[CurrentDim] = i;
-            if
-                constexpr(CurrentDim == N - 1) {
-                    int n = rand() % 100;
-                    if (n < 30) {
-                        vec.push_back(pt);
-                    }
+            if constexpr (CurrentDim == N - 1) {
+                int n = rand() % 100;
+                if (n < 30) {
+                    vec.push_back(pt);
                 }
-            else {
+            } else {
                 get_starting_live_cells_helper<CurrentDim + 1>(vec, pt);
             }
         }
     }
 
-    std::vector<typename Grid<N>::CoorType> get_starting_live_cells() {
-        std::vector<typename Grid<N>::CoorType> ret;
-        typename Grid<N>::CoorType pt;
+    std::vector<CoorType> get_starting_live_cells() {
+        std::vector<CoorType> ret;
+        CoorType pt;
         get_starting_live_cells_helper<0>(ret, pt);
         return ret;
     }
 
     void init_grid() {
         const auto vec = get_starting_live_cells();
-        grid_->set_cell_from_container(vec, Live);
+        grid_->template set_cell_from_container<std::vector>(vec, Live);
+        // grid_->template set_cell_from_container(vec,Live);
     }
 
-    typename Grid<N>::CoorType size_;
+    CoorType size_;
 
    public:
     void set_max_run(int max_run) {
@@ -106,7 +108,7 @@ class PlayGround {
 
    private:
     int max_run_;
-    std::shared_ptr<Grid<N>> grid_;
+    std::shared_ptr<GridT> grid_;
 
     int same_count = 0;
     int ep_ = 0;
@@ -118,11 +120,14 @@ class PlayGround {
    public:
     virtual ~PlayGround() {
         LOG(INFO) << "Bye from Playground";
+        LOG(INFO) << "Size of history and number of ep: "
+                  << digest_history.size() << " " << ep_;
     }
 
-    typename Grid<N>::SharedGridPtr getGrid() const {
+    typename GridT::SharedGridPtr getGrid() const {
         return grid_;
     }
 };
+
 }  // namespace gol
 }  // namespace lst

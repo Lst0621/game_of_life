@@ -14,11 +14,12 @@ BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(playground_run_overload, PlayGround::run,
 constexpr int DIM = PY_WRAPPER_DIM;
 
 std::string get_type_str(const std::string& name) {
-    return std::string(name + std::to_string(DIM) + "D");
+    // return std::string(name + std::to_string(DIM) + "D");
+    return name;
 }
 
-//extern template class lst::gol::VectorGrid<DIM>;
-//extern template class lst::gol::PlayGround<DIM>;
+extern template class lst::gol::VectorGrid<DIM>;
+extern template class lst::gol::PlayGround<DIM>;
 
 const std::string CoorTypeStr = get_type_str("CoorType");
 const std::string CordListStr = get_type_str("CordList");

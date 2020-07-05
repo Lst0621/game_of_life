@@ -38,7 +38,7 @@ function(Build_GOL_PY_DIM GOL_PY_DIM)
 endfunction()
 
 
-foreach (dimension RANGE 1 5)
+foreach (dimension RANGE 1 ${GOL_MAX_DIM})
     Build_GOL_PY_DIM(${dimension})
 endforeach ()
 

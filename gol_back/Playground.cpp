@@ -1,76 +1,27 @@
 #include "Playground.h"
+#include "VectorGrid.h"
 
-#include <glog/logging.h>
-#include <unistd.h>
-#include <iostream>
-#include <unordered_map>
 namespace lst {
 namespace gol {
-PlayGround::PlayGround(int width, int height)
-    : width_(width), height_(height), grid_(Grid(width, height)) {
-    max_run_ = -1;
-    set_up();
-}
-
-void PlayGround::run(std::function<void(const Grid &)> func) {
-    // we allow -1
-    constexpr int SameLimt = 100;
-
-    int digest = grid_.get_digest();
-    int s = grid_.sum();
-    int &last_seen = digest_history[digest];
-
-    if (last_seen != 0) {
-        same_count = same_count + 1;
-    } else {
-        same_count = 0;
-    }
-    LOG(INFO) << "ep " << ep_ << " : live cells " << s << " digest " << digest
-              << " last seen " << last_seen;
-
-    // todo move to another func
-    func(getGrid());
-
-    /**
-    grid_.to_console();
-    usleep(1000 * epoch_);
-    system("clear");
-    **/
-
-    last_seen = ep_;
-    LOG(INFO) << "evlove before";
-    grid_ = grid_.evolve();
-    LOG(INFO) << "evlove after";
-    ep_++;
-    if (same_count == SameLimt) {
-        LOG(INFO) << "Next";
-        set_up();
-    }
-}
-
-void PlayGround::set_up() {
-    LOG(INFO) << "Playground set up";
-    ep_ = 0;
-    same_count = 0;
-    digest_history.clear();
-    for (int i = 0; i < width_; i++) {
-        for (int j = 0; j < height_; j++) {
-            int n = rand() % 100;
-            if (n < 30) {
-                grid_.set_cell(i, j, Live);
-            } else {
-                grid_.set_cell(i, j, Dead);
-            }
-        }
-    }
-}
-
-void PlayGround::setMaxRun(int maxRun) {
-    max_run_ = maxRun;
-}
-
-const Grid &PlayGround::getGrid() const {
-    return grid_;
-}
-}
-}
+template class PlayGround<1>;
+template class VectorGrid<1>;
+template class PlayGround<2>;
+template class VectorGrid<2>;
+template class PlayGround<3>;
+template class VectorGrid<3>;
+template class PlayGround<4>;
+template class VectorGrid<4>;
+template class PlayGround<5>;
+template class VectorGrid<5>;
+template class PlayGround<6>;
+template class VectorGrid<6>;
+template class PlayGround<7>;
+template class VectorGrid<7>;
+template class PlayGround<8>;
+template class VectorGrid<8>;
+template class PlayGround<9>;
+template class VectorGrid<9>;
+template class PlayGround<10>;
+template class VectorGrid<10>;
+}  // namespace gol
+}  // namespace lst
